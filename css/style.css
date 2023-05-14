@@ -110,6 +110,12 @@ button{
 
 }
 
+@media  screen and (max-width : 375px) {
+    .box{
+        padding: 15px;
+        font-size: 9pt;
+    }    
+}
 /* LABELS STYLES */
     .label{
         display: flex;
@@ -120,9 +126,9 @@ button{
     }
     .dual-label{
         display: flex;
-        gap: 50px;
         justify-content: space-between;
         width: 100%;
+        gap: 20px;
     }
     .footer{
         position: fixed;
@@ -194,7 +200,7 @@ button{
         display: none;
     }
     .enroll{
-        font-size: .9em;
+        font-size: 0.9em;
         color: var(--raisin-black);
         text-transform: uppercase;
         font-weight: 700;
