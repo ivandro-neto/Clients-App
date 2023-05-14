@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Clients Manager</title>
+</head>
+<body>
+    <nav id="nav-bar">
+        <div><img src="images/brand/logo.png" width= "96" alt=""></div>
+    </nav>
+    <main id="container">
+        <section class="sections" id="search">
+            <label for="search">Search:</label>
+            <input name="search"type="text" placeholder="eg.: Julia Mercedes" id="text">
+        </section>
+
+        <section id="newest" class="sections"></section>
+    </main>
+    <section class="form" id="form">
+        <h1>New Service</h1>
+       <div class="dual-label">
+           <input name="client" type="text" placeholder="client name" id="cName">
+           <input name="email" type="email" placeholder="email" id="cEmail">
+
+       </div>
+       <div class="dual-label">
+           <input name="password" type="password" placeholder="password" id="cPass">
+           <input name="phone" type="text" placeholder="phone number" id="cNumber">
+
+       </div>
+       <div class="dual-label">
+           <input name="service" type="text" placeholder="service" id="cService">
+           <input name="plan" type="text" placeholder="plan" id="cPlan">
+
+       </div>
+       <div class="dual-label">
+       <div class="label">
+            <label for="paid">Paid:</label>
+           <input name="paid" type="checkbox" id="cPaid">
+        </div>
+    </div>
+    <button id="addBtn" onclick="print()">Submit</button>
+
+    </section>
+    <section class="footer">
+        <div class="add-bar">
+            <button class="add" onclick="toggle()">+</button>
+        </div>
+    </section>
+
+    <script src="js/data.js"></script>
+</body>
+</html>
