@@ -54,7 +54,7 @@ ul{
 #search{
     width: 100%;
 }
-label{
+label, h1{
     color: var(--english-violet);
     font-weight: 700;
     text-transform: uppercase;
@@ -115,12 +115,12 @@ button{
         display: flex;
         gap: 10px;
         justify-content: start;
-        font-size: 1.2em;
-        width: 100%;
+        font-size: 1em;
+        width: auto;
     }
     .dual-label{
         display: flex;
-        gap: 40px;
+        gap: 50px;
         justify-content: space-between;
         width: 100%;
     }
@@ -169,6 +169,46 @@ button{
     .update{
         color: var(--moonstone);
 
+    }
+
+   
+    .deletePop{
+        display: flex;
+        flex-direction: column;
+        background-color: var(--english-violet);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px black;
+        gap: 30px;
+    }
+    
+    .popup{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .6);
+        pointer-events: all;
+        display: none;
+    }
+    .enroll{
+        font-size: .9em;
+        color: var(--raisin-black);
+        text-transform: uppercase;
+        font-weight: 700;
+        opacity: 1;
+    }
+
+    .show{
+        cursor: pointer;
+    }
+    #info{
+        display: none;
+    }
+    #addbtn{
+        transition: all 500ms;
     }
     .form{
         position: fixed;

@@ -60,7 +60,7 @@ const setColor = (service, type = "service") => {
       break;
   }
 };
-const Box = (service, name, paid, plans, createdAt) => {
+const Box = (id, service, name, paid, plans, createdAt) => {
   const Box = document.createElement("div");
   const DescriptionLabel = document.createElement("div");
   const NameLabel = document.createElement("div");
@@ -70,14 +70,6 @@ const Box = (service, name, paid, plans, createdAt) => {
   const PlanLabel = document.createElement("div");
   const StateLabel = document.createElement("div");
   const DataLabel = document.createElement("div");
-  const ButtonLabel = document.createElement("div");
-
-  const deleteBtn = document.createElement("button");
-  const updateBtn = document.createElement("button");
-  deleteBtn.textContent = "Delete";
-  deleteBtn.classList.add("btn", "delete");
-  updateBtn.classList.add("btn", "update");
-  updateBtn.textContent = "Update";
 
   const clientName = document.createElement("p");
   const clientService = document.createElement("p");
@@ -129,6 +121,8 @@ const Box = (service, name, paid, plans, createdAt) => {
   PayLabel.classList.add("label");
 
   startString.textContent = "Enrolled at:";
+  startString.classList.add("enroll");
+  clientPaidDay.classList.add("enroll");
   DaysLabel.appendChild(startString);
   DaysLabel.appendChild(clientPaidDay);
   DaysLabel.classList.add("label");
@@ -155,18 +149,45 @@ const Box = (service, name, paid, plans, createdAt) => {
   DescriptionLabel.appendChild(NameLabel);
   DescriptionLabel.appendChild(clientService);
 
-  ButtonLabel.classList.add("dual-label");
-  ButtonLabel.appendChild(updateBtn);
-  ButtonLabel.appendChild(deleteBtn);
-
   //Boxes configurations
   Box.appendChild(DescriptionLabel);
   Box.appendChild(StateLabel);
   Box.appendChild(DataLabel);
-  Box.appendChild(ButtonLabel);
-  Box.classList.add("box");
+  Box.classList.add("box", "show");
+  Box.addEventListener("click", () => {
+    getAllClient(id);
+    showingpop = !showingpop;
+    if (showingpop === true) showPop();
+    else hidePop();
+  });
 
   return Box;
+};
+const getAllClient = async (content) => {
+  try {
+    const res = await fetch(
+      `https://client-api-n9vu.onrender.com/api/v1/user/${content}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const Data = await res.json();
+    console.log(Data.data);
+
+    const { id, service, email, name, paid, plans, password, phone } =
+    Data.data;
+    ciName.value = name;
+    ciService.value = service;
+    ciPaid.value = paid? 'on' : 'off';
+    ciPlans.value = plans;
+    ciPass.value = password;
+    ciNumber.value = phone;
+    ciEmail.value = email;
+    ciID.textContent = id;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getClients = async () => {
@@ -177,9 +198,9 @@ const getClients = async () => {
   newest.innerHTML = "";
 
   for (let i = 0; i < Data.data.length; i++) {
-    const { service, name, paid, plans, createdAt } = Data.data[i];
+    const { id, service, name, paid, plans, createdAt } = Data.data[i];
 
-    newest.appendChild(Box(service, name, paid, plans, createdAt));
+    newest.appendChild(Box(id, service, name, paid, plans, createdAt));
   }
 };
 
@@ -187,7 +208,7 @@ const getClient = async () => {
   try {
     const content = text.value;
     const res = await fetch(
-      `https://client-api-n9vu.onrender.com/api/v1${content}`,
+      `https://client-api-n9vu.onrender.com/api/v1/${content}`,
       {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -197,9 +218,9 @@ const getClient = async () => {
     console.log(Data.data);
     newest.innerHTML = "";
     for (let i = 0; i < Data.data.length; i++) {
-      const { service, name, paid, plans, createdAt } = Data.data[i];
+      const { id, service, name, paid, plans, createdAt } = Data.data[i];
 
-      newest.appendChild(Box(service, name, paid, plans, createdAt));
+      newest.appendChild(Box(id, service, name, paid, plans, createdAt));
     }
   } catch (error) {
     console.log(error);
@@ -210,7 +231,44 @@ setInterval(() => {
   else getClients();
 }, 1000);
 
-async function print() {
+async function updateService() {
+  const newservice = {
+    email: ciEmail.value,
+    password: ciPass.value,
+    phone: ciNumber.value,
+    service: ciService.value,
+    name: ciName.value,
+    paid: ciPaid.value === "on" ? true : false,
+    plans: ciPlans.value,
+  };
+  const res = await fetch(
+    `https://client-api-n9vu.onrender.com/api/v1/user/${ciID.textContent}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newservice),
+    }
+  );
+  const Data = await res.json()
+  console.log(Data)
+}
+async function deleteService() {
+  const res = await fetch(
+    `https://client-api-n9vu.onrender.com/api/v1/user/${ciID.textContent}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+    const Data = await res.json();
+    console.log(Data.data);
+  back();
+}
+async function createService() {
   const newservice = {
     email: cEmail.value,
     password: cPass.value,
@@ -226,21 +284,56 @@ async function print() {
     body: JSON.stringify(newservice),
   });
 }
-const createService = async () => {};
 let showing = false;
+let showingpop = false;
 
 setInterval(() => {
+  //console.log(ciPaid.value)
+  //console.log(cPaid.value)
   if (showing === true) show();
   else hide();
 });
 
 function show() {
   form.style.display = "flex";
+  addbtn.style.transform = "rotate(45deg)";
 }
 function hide() {
   form.style.display = "none";
+  addbtn.style.transform = "rotate(0deg)";
+}
+function hidePop() {
+  info.style.display = "none";
+}
+function showPop() {
+  info.style.display = "flex";
+}
+
+function popUp() {
+  showingpop = !showingpop;
 }
 
 function toggle() {
   showing = !showing;
+}
+
+function back() {
+  showingpop = false;
+  hidePop();
+  clearData();
+}
+function paidtigger(check) {
+  
+  if(check.value === 'off') check.value = 'on';
+  else check.value = 'off';
+  
+}
+function clearData() {
+  ciName.value = "";
+  ciService.value = "";
+  ciPaid.value = "off";
+  ciPlans.value = "";
+  ciPass.value = "";
+  ciNumber.value = "";
+  ciEmail.value = "";
 }
