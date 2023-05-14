@@ -82,7 +82,7 @@ input[type='text'], input[type='email'], input[type='password']{
     color: var(--snow);
     border: none;
     padding: 10px 15px;
-    font-size: 1.5em;
+    font-size: 1em;
     border-radius: 5px;    
 }
 input[type='checkbox']{
