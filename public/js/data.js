@@ -170,7 +170,9 @@ const Box = (service, name, paid, plans, createdAt) => {
 };
 
 const getClients = async () => {
-  const res = await fetch("http://localhost:3000/api/v1", { method: "GET" });
+  const res = await fetch("https://client-api-n9vu.onrender.com/api/v1", {
+    method: "GET",
+  });
   const Data = await res.json();
   newest.innerHTML = "";
 
@@ -184,10 +186,13 @@ const getClients = async () => {
 const getClient = async () => {
   try {
     const content = text.value;
-    const res = await fetch(`http://localhost:3000/api/v1/${content}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    });
+    const res = await fetch(
+      `https://client-api-n9vu.onrender.com/api/v1${content}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     const Data = await res.json();
     console.log(Data.data);
     newest.innerHTML = "";
@@ -215,29 +220,27 @@ async function print() {
     paid: cPaid.value == "on" ? true : false,
     plans: cPlan.value,
   };
-  const res = await fetch(`http://localhost:3000/api/v1/`, {
+  const res = await fetch(`https://client-api-n9vu.onrender.com/api/v1`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newservice),
   });
 }
 const createService = async () => {};
-let showing = false
+let showing = false;
 
 setInterval(() => {
-  if (showing === true)
-    show()
-  else
-    hide()
-})
+  if (showing === true) show();
+  else hide();
+});
 
 function show() {
-  form.style.display = 'flex'
+  form.style.display = "flex";
 }
 function hide() {
-  form.style.display = 'none'
+  form.style.display = "none";
 }
 
 function toggle() {
-  showing = !showing
+  showing = !showing;
 }
