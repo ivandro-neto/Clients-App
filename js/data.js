@@ -84,8 +84,9 @@ const Box = (id, service, name, paid, plans, createdAt) => {
   const startString = document.createElement("p");
   const planString = document.createElement("span");
 
-  console.log(createdAt)
+  console.log(`DATA:: ${createdAt}`)
   const paidDay = new Date(createdAt);
+  console.log(`PAIDDAY:: ${paidDay}`)
   const today = new Date();
   const expireDay = new Date(paidDay.getTime() + expireLimit);
   const daysLeft = Math.ceil(
