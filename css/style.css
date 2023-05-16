@@ -58,7 +58,10 @@ label, h1{
     color: var(--english-violet);
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 1.3em;
+    font-size: 1.2em;
+}
+#ciID{
+    font-size: 1em;
 }
 .sections{
     display: flex;
@@ -84,6 +87,12 @@ input[type='text'], input[type='email'], input[type='password']{
     padding: 10px 15px;
     font-size: 1em;
     border-radius: 5px;    
+}
+#cDescription , #ciDescription{
+    background-color: var(--english-violet);
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
 }
 input[type='checkbox']{
     font-size: 1.2em ;
@@ -129,6 +138,7 @@ button{
         justify-content: space-between;
         width: 100%;
         gap: 20px;
+        align-items: flex-start;
     }
     .footer{
         position: fixed;
@@ -225,7 +235,7 @@ button{
         justify-content: start;
         padding: 30px;
         flex-wrap: wrap;
-        gap: 30px;
+        gap: 20px;
         background-color: var(--raisin-black-light);
         border-radius: 5px;
         

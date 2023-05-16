@@ -84,15 +84,11 @@ const Box = (id, service, name, paid, plans, createdAt) => {
   const startString = document.createElement("p");
   const planString = document.createElement("span");
 
-  console.log(`DATA:: ${createdAt}`)
   const paidDay = new Date(createdAt);
-  console.log(`PAIDDAY:: ${paidDay}`)
   const today = new Date();
   const expireDay = new Date(paidDay.getTime() + expireLimit);
-  const daysLeft = Math.ceil(
-    (expireDay.getTime() - today.getTime()) / daysInMiliSecs
-  );
-
+  const day = (expireDay.getTime() - today.getTime()) / daysInMiliSecs;
+  const daysLeft = Math.round(day);
   const state = () => {
     if (daysLeft == 31) return "pending";
     else if (daysLeft > 20 && daysLeft < 31) return "paid";
@@ -107,7 +103,9 @@ const Box = (id, service, name, paid, plans, createdAt) => {
   clientStatus.classList.add(paid ? "paid" : "not-paid");
   clientDaysLeft.textContent = daysLeft;
   clientDaysLeft.classList.add(state());
-  clientPaidDay.textContent = `${paidDay.getDate()}/ ${paidDay.getMonth()}/ ${paidDay.getFullYear()}`;
+  clientPaidDay.textContent = `${paidDay.getDate()}/ ${
+    paidDay.getMonth() + 1
+  }/ ${paidDay.getFullYear()}`;
   clientPlan.textContent = plans.toUpperCase();
   clientPlan.classList.add(setColor(plans, "plan"));
 
@@ -175,18 +173,36 @@ const getAllClient = async (content) => {
       }
     );
     const Data = await res.json();
-    console.log(Data.data);
 
-    const { id, service, email, name, paid, plans, password, phone } =
-    Data.data;
+    const {
+      id,
+      service,
+      email,
+      name,
+      paid,
+      plans,
+      password,
+      phone,
+      description,
+    } = Data.data;
+    const checked = () => {
+      if (paid === true) {
+        ciPaid.value = "on";
+        ciPaid.checked = true;
+      } else if (paid === false) {
+        ciPaid.value = "off";
+        ciPaid.checked = false;
+      }
+    };
+    checked();
     ciName.value = name;
     ciService.value = service;
-    ciPaid.value = paid? 'on' : 'off';
     ciPlans.value = plans;
     ciPass.value = password;
     ciNumber.value = phone;
     ciEmail.value = email;
     ciID.textContent = id;
+    ciDescription.value = description;
   } catch (error) {
     console.log(error);
   }
@@ -217,7 +233,6 @@ const getClient = async () => {
       }
     );
     const Data = await res.json();
-    console.log(Data.data);
     newest.innerHTML = "";
     for (let i = 0; i < Data.data.length; i++) {
       const { id, service, name, paid, plans, createdAt } = Data.data[i];
@@ -234,14 +249,19 @@ setInterval(() => {
 }, 1000);
 
 async function updateService() {
+  const checked = () => {
+    if (ciPaid.value === "on") return true;
+    else if (ciPaid.value === "off") return false;
+  };
   const newservice = {
     email: ciEmail.value,
     password: ciPass.value,
     phone: ciNumber.value,
     service: ciService.value,
     name: ciName.value,
-    paid: ciPaid.value === "on" ? true : false,
+    paid: checked(),
     plans: ciPlans.value,
+    description: ciDescription.value,
   };
   const res = await fetch(
     `https://client-api-n9vu.onrender.com/api/v1/user/${ciID.textContent}`,
@@ -253,8 +273,8 @@ async function updateService() {
       body: JSON.stringify(newservice),
     }
   );
-  const Data = await res.json()
-  console.log(Data)
+
+  back();
 }
 async function deleteService() {
   const res = await fetch(
@@ -266,25 +286,29 @@ async function deleteService() {
       },
     }
   );
-    const Data = await res.json();
-    console.log(Data.data);
   back();
 }
 async function createService() {
+  const checked = () => {
+    if (cPaid.value === "on") return true;
+    else if (cPaid.value === "off") return false;
+  };
   const newservice = {
     email: cEmail.value,
     password: cPass.value,
     phone: cNumber.value,
     service: cService.value,
     name: cName.value,
-    paid: cPaid.value == "on" ? true : false,
+    paid: checked(),
     plans: cPlan.value,
+    description: cDescription.value,
   };
   const res = await fetch(`https://client-api-n9vu.onrender.com/api/v1`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newservice),
   });
+  back();
 }
 let showing = false;
 let showingpop = false;
@@ -321,19 +345,18 @@ function toggle() {
 
 function back() {
   showingpop = false;
+  showing = false;
   hidePop();
   clearData();
+  hide();
 }
 function paidtigger(check) {
-  
-  if(check.value === 'off') check.value = 'on';
-  else check.value = 'off';
-  
+  if (check.value === "off") check.value = "on";
+  else check.value = "off";
 }
 function clearData() {
   ciName.value = "";
   ciService.value = "";
-  ciPaid.value = "off";
   ciPlans.value = "";
   ciPass.value = "";
   ciNumber.value = "";

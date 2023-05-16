@@ -44,44 +44,47 @@
            <input name="paid" type="checkbox" id="cPaid" onclick = "paidtigger(this)" checked="false">
         </div>
     </div>
-    <button id="addBtn" onclick="createService()">Submit</button>
-
-    </section>
-    <section class="form" id="info">
-        <h1>All Info</h1>
-        <p id="ciID"></p>
-        <div class="dual-label">
-            <input name="iclient" type="text" placeholder="client name" id="ciName">
-            <input name="iemail" type="email" placeholder="email" id="ciEmail">
+    <label for="description">Description:</label>
+    <textarea name="description" id="cDescription" cols="30" rows="5" placeholder="Notes"></textarea>
+    <button id="addBtn" class="pending" onclick="createService()">Submit</button>
     
+</section>
+<section class="form" id="info">
+    <h1>All Info</h1>
+    <label id="ciID"></label>
+    <div class="dual-label">
+        <input name="iclient" type="text" placeholder="client name" id="ciName">
+        <input name="iemail" type="email" placeholder="email" id="ciEmail">
+        
+    </div>
+    <div class="dual-label">
+        <input name="ipassword" type="password" placeholder="password" id="ciPass">
+        <input name="iphone" type="text" placeholder="phone number" id="ciNumber">
+        
+    </div>
+    <div class="dual-label">
+        <input name="iservice" type="text" placeholder="service" id="ciService">
+        <input name="iplan" type="text" placeholder="plan" id="ciPlans">
+        
+    </div>
+    <div class="dual-label">
+        <div class="label">
+            <label for="ipaid">Paid:</label>
+            <input name="ipaid" type="checkbox" id="ciPaid" onclick="paidtigger(this)">
         </div>
-        <div class="dual-label">
-            <input name="ipassword" type="password" placeholder="password" id="ciPass">
-            <input name="iphone" type="text" placeholder="phone number" id="ciNumber">
+        <textarea name="description" id="ciDescription" cols="30" rows="5" placeholder="Description"></textarea>
+    </div>
+    <div class="dual-label">
+        
+        <button id="updatebtn" class="warning"onclick="updateService()">Update</button>
+        <button id="deletebtn" class="not-paid"onclick="deleteService()">Delete</button>
+    </div>
+    <button id="back" class="pending"onclick="back()">Back</button>
     
-        </div>
-        <div class="dual-label">
-            <input name="iservice" type="text" placeholder="service" id="ciService">
-            <input name="iplan" type="text" placeholder="plan" id="ciPlans">
+</section>
+<div class="popup" id="popup">
     
-        </div>
-        <div class="dual-label">
-            <div class="label">
-                <label for="ipaid">Paid:</label>
-                <input name="ipaid" type="checkbox" id="ciPaid" onclick="paidtigger(this)">
-            </div>
-        </div>
-        <div class="dual-label">
-
-            <button id="updatebtn" class="warning"onclick="updateService()">Update</button>
-            <button id="deletebtn" class="not-paid"onclick="deleteService()">Delete</button>
-        </div>
-        <button id="back" class="pending"onclick="back()">Back</button>
-    
-    </section>
-    <div class="popup" id="popup">
-
-        <div class="deletePop">
+    <div class="deletePop">
             <h2>Are you sure?</h2>
             <div class="dual-label">
                 <button class="paid btn">No</button>
