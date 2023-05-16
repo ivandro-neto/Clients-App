@@ -84,6 +84,7 @@ const Box = (id, service, name, paid, plans, createdAt) => {
   const startString = document.createElement("p");
   const planString = document.createElement("span");
 
+  console.log(createdAt)
   const paidDay = new Date(createdAt);
   const today = new Date();
   const expireDay = new Date(paidDay.getTime() + expireLimit);
